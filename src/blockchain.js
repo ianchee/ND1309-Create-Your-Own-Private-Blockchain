@@ -196,18 +196,19 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            self.chain.forEach(block, index) {
+            self.chain.forEach((block, index) => {
                 if (block.validate() !== false) {
                     errorLog.push(`${JSON.stringify(block)} is invalid.`)
                 }
                 if (index > 0) {
                     let previousBlock = self.chain[index - 1];
                     if (block.previousBlockHash != previousBlockHash) {
-                        errorLog.push(`${JSON.stringify(block)}'s previous blockhash does not match ${JSON.stringify(previousBlockHash)}.`);
+                        errorLog.push(`${JSON.stringify(block)}'s previous blockhash does not match ${previousBlockHash.hash}.`);
 
                     }
                 }
-            }
+            });
+            resolve(errorLog);
         });
     }
 
