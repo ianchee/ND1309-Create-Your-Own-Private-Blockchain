@@ -26,7 +26,7 @@ class Block {
     /**
      *  validate() method will validate if the block has been tampered or not.
      *  Been tampered means that someone from outside the application tried to change
-     *  values in the block data as a consecuence the hash of the block should be different.
+     *  values in the block data as a consequence the hash of the block should be different.
      *  Steps:
      *  1. Return a new promise to allow the method be called asynchronous.
      *  2. Save the in auxiliary variable the current hash of the block (`this` represent the block object)
@@ -41,11 +41,15 @@ class Block {
             // Save in auxiliary variable the current block hash
                                             
             // Recalculate the hash of the Block
+            let reHash = SHA256(JSON.stringify(self)).toString();
             // Comparing if the hashes changed
+            if (reHash != self.hash) {
             // Returning the Block is not valid
-            
+                resolve(false);
+            } else {
             // Returning the Block is valid
-
+                resolve(true);
+            }
         });
     }
 
@@ -64,7 +68,7 @@ class Block {
         // Parse the data to an object to be retrieve.
 
         // Resolve with the data if the object isn't the Genesis block
-
+        return JSON.parse(hex2ascii(this.body));
     }
 
 }
