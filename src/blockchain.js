@@ -119,7 +119,8 @@ class Blockchain {
             } else {
                 let isValid = bitcoinMessage.verify(message, address, signature);
                 if (isValid) {
-                    let newBlock = new BlockClass.block(star);
+                    let data =  {"address" : address, "star" : star};
+                    let newBlock = new BlockClass.block(data);
                     self._addBlock(newBlock);
                     resolve(newBlock);  
                 } else {
@@ -174,7 +175,14 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
-            
+            self.chain.forEach(block => {
+                let body = block.getBData();
+                console.log(body);
+                if (body.address === address) {
+                    stars.push(body.star);
+                }
+            });
+            resolve(stars);
         });
     }
 
